@@ -1,0 +1,11 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.hand {
+	-fx-background-color: gray;
+}
+
+.player {
+	-fx-background-color: teal;
+}
+
+.background {
+}
