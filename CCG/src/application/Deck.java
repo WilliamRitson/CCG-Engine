@@ -1,14 +1,28 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+/**
+ * The Class Deck.
+ * 
+ * This class is used to represent a players deck of cards. It wraps an
+ * array list to enforce the constraints of the game rules and trigger watchable
+ * events.
+ */
 public class Deck {
+
+	/** The on card draw. */
 	public Event<Card> onCardDraw;
 
+	/** The cards. */
 	private ArrayList<Card> cards;
 
 	/**
-	 * @param newCards - Cards to put into the new deck
+	 * Instantiates a new deck.
+	 *
+	 * @param newCards
+	 *            - Cards to put into the new deck
 	 */
 	public Deck(Card... newCards) {
 		cards = new ArrayList<Card>(60);
@@ -30,6 +44,16 @@ public class Deck {
 			onCardDraw.fire(drawn);
 		}
 		return drawn;
+	}
+
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+	
+	public String toString() {
+		return "Deck: " + cards.stream()
+			     .map((Card c) -> c.getName())
+			     .collect(Collectors.joining(", ", "{", "}"));
 	}
 
 }

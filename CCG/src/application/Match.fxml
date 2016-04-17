@@ -14,7 +14,8 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player" />
                </children>
             </HBox>
-            <Pane prefHeight="405.0" prefWidth="1280.0" />
+            <HBox fx:id="opponentField" prefHeight="200.0" prefWidth="200.0" />
+            <HBox fx:id="localPlayerField" prefHeight="200.0" prefWidth="200.0" />
             <HBox prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player" />

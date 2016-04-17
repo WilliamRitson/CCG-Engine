@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane prefHeight="200.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardController">
+<StackPane fx:id="root" prefHeight="200.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="200.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" styleClass="background" />
       <VBox prefHeight="200.0" prefWidth="120.0" styleClass="background">

@@ -34,4 +34,8 @@ public interface Card {
 	 */
 	public String getDisplayText();
 
+	public void setOwner(Player player);
+	
+	public String getID(); 
+
 }

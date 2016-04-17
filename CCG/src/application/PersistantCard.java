@@ -1,6 +1,14 @@
 package application;
 
-public class PersistantCard implements Card, Attackable {
+import java.io.Serializable;
+import java.util.UUID;
+
+public class PersistantCard implements Card, Attackable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4307839066400531082L;
 
 	private Player owner;
 
@@ -9,6 +17,11 @@ public class PersistantCard implements Card, Attackable {
 	private String name;
 	private String ruleText;
 	private int cost;
+	
+	private Event<ValueChange> onDamaged;
+
+	private String id;
+
 
 	/**
 	 * Constructs a new card
@@ -23,31 +36,40 @@ public class PersistantCard implements Card, Attackable {
 	 * @param damage
 	 *            - The damage the card does when played
 	 */
-	public PersistantCard(String name, String ruleText,  Player owner, int cost, int life, int damage) {
+	public PersistantCard(String name, String ruleText, int cost, int life, int damage) {
 		this.name = name;
-		this.owner = owner;
 		this.cost = cost;
 		this.life = life;
 		this.damage = damage;
 		this.ruleText = ruleText;
+		this.id = name + ":" + UUID.randomUUID();
+		
+		onDamaged = new Event<ValueChange>();
 	}
 
 	/**
 	 * Constructs a new card with blank fields. Suitable for use in an editor.
 	 */
 	public PersistantCard() {
-		this("", "", null, 0, 0, 0);
+		this("", "", 0, 0, 0);
 	}
 
 	@Override
 	public void playCard() {
-		owner.onSummon.fire(this);
+		System.out.println("Play " + this.name + " owned by " + owner);
+		this.owner.getHand().remove(this);
 		this.owner.getBattlefield().addEntity(this);
+		owner.onSummon.fire(this);
+		owner.setResource(owner.getResource() - this.cost);
 	}
 
 	@Override
 	public Player getOwner() {
 		return owner;
+	}
+	
+	public void setOwner(Player newOwner) {
+		owner = newOwner;
 	}
 
 	@Override
@@ -67,7 +89,6 @@ public class PersistantCard implements Card, Attackable {
 		this.life = life;
 	}
 
-	private Event<ValueChange> onDamaged;
 
 	@Override
 	public ValueChange takeDamage(int amount, Attackable source) {
@@ -101,12 +122,17 @@ public class PersistantCard implements Card, Attackable {
 
 	@Override
 	public boolean isPlayable() {
-		return owner.getResource() > cost;
+		return owner.getResource() >= cost;
 	}
 
 	@Override
 	public String getDisplayText() {
 		return ruleText;
+	}
+
+	@Override
+	public String getID() {
+		return id;
 	}
 
 }
