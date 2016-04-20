@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayerCharacterController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <StackPane fx:id="weapon" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <Circle blendMode="SRC_ATOP" fill="#d9c8ba" radius="50.0" stroke="BLACK" strokeType="INSIDE">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Circle>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/img/ace.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="40.0" prefWidth="36.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/img/crossed-swords.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="weponDamage" stroke="#f0f1f3" strokeType="OUTSIDE" text="0" wrappingWidth="19.40625">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="40.0" prefWidth="36.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0">
+               <children>
+                  <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/img/shield.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="weaponDuribility" layoutX="-0.0" layoutY="-10.0" stroke="#f0f1f3" strokeType="OUTSIDE" text="0" textAlignment="CENTER" translateY="-5.0" wrappingWidth="19.40625">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </StackPane>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d1a6ec" height="40.0" layoutX="-39.0" layoutY="-74.0" stroke="BLACK" strokeType="INSIDE" width="80.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="7.0" />
+            <Text fx:id="manaTotal" fill="WHITE" layoutY="40.84765625" stroke="BLACK" strokeType="OUTSIDE" text="0/0" textAlignment="CENTER" wrappingWidth="57.39999485015869" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="1.0">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <StackPane fx:id="heroTarget" prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/img/robe.png" />
+               </image>
+            </ImageView>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <StackPane prefHeight="87.0" prefWidth="80.0" AnchorPane.bottomAnchor="-15.0" AnchorPane.rightAnchor="-15.0">
+                     <children>
+                        <ImageView fitHeight="47.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/img/heart-drop.png" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="life" fill="WHITE" layoutX="23.0" layoutY="55.0" stroke="BLACK" strokeType="OUTSIDE" text="30" wrappingWidth="33.59997353516519" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <StackPane prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <Circle fx:id="heroPower" blendMode="SRC_ATOP" fill="#a9e2f8" radius="50.0" stroke="BLACK" strokeType="INSIDE">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Circle>
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/img/ace.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane layoutX="14.0" prefHeight="20.0" prefWidth="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+               <children>
+                  <Circle blendMode="SRC_ATOP" fill="#d1a6ec" radius="20.0" stroke="BLACK" strokeType="INSIDE">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Circle>
+                  <Text fx:id="heroPowerCost" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" text="0" textAlignment="CENTER" translateX="1.0" translateY="-3.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </StackPane>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

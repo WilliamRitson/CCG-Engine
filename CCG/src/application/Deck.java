@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 /**
  * The Class Deck.
  * 
- * This class is used to represent a players deck of cards. It wraps an
- * array list to enforce the constraints of the game rules and trigger watchable
+ * This class is used to represent a players deck of cards. It wraps an array
+ * list to enforce the constraints of the game rules and trigger watchable
  * events.
  */
 public class Deck {
 
-	/** The on card draw. */
+	/** An event that is triggered when the player draws a card */
 	public Event<Card> onCardDraw;
 
-	/** The cards. */
+	/** The cards stored within the deck. */
 	private ArrayList<Card> cards;
 
 	/**
@@ -46,14 +46,26 @@ public class Deck {
 		return drawn;
 	}
 
+	/**
+	 * Get an array list containing all the cards in the deck.
+	 *
+	 * @return the cards
+	 */
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 * 
+	 * Generates a representation of the string in the format Deck (length):
+	 * {Card 1 Name, Card 2 Name, ..., Last Card Name}
+	 */
 	public String toString() {
-		return "Deck: " + cards.stream()
-			     .map((Card c) -> c.getName())
-			     .collect(Collectors.joining(", ", "{", "}"));
+		return "Deck: (" + cards.size() + " ): "
+				+ cards.stream().map((Card c) -> c.getName()).collect(Collectors.joining(", ", "{", "}"));
 	}
 
 }

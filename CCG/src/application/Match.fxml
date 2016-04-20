@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MatchController">
    <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
-            <HBox prefHeight="200.0" prefWidth="200.0" styleClass="hand">
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player" />
-               </children>
-            </HBox>
+            <HBox fx:id="opponentHand" prefHeight="200.0" prefWidth="200.0" styleClass="hand" />
             <HBox fx:id="opponentField" prefHeight="200.0" prefWidth="200.0" />
+            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                  <Button fx:id="endTurn" contentDisplay="RIGHT" mnemonicParsing="false" text="End Turn" />
+              </buttons>
+            </ButtonBar>
             <HBox fx:id="localPlayerField" prefHeight="200.0" prefWidth="200.0" />
-            <HBox prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player" />
-                  <HBox fx:id="playerHand" prefHeight="199.0" prefWidth="1082.0" />
-               </children>
-            </HBox>
+            <HBox fx:id="playerHand" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
    </children>

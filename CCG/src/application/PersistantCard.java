@@ -17,6 +17,7 @@ public class PersistantCard implements Card, Attackable, Serializable {
 	private String name;
 	private String ruleText;
 	private int cost;
+	private boolean inPlay;
 	
 	private Event<ValueChange> onDamaged;
 
@@ -59,6 +60,7 @@ public class PersistantCard implements Card, Attackable, Serializable {
 		System.out.println("Play " + this.name + " owned by " + owner);
 		this.owner.getHand().remove(this);
 		this.owner.getBattlefield().addEntity(this);
+		this.inPlay = true;
 		owner.onSummon.fire(this);
 		owner.setResource(owner.getResource() - this.cost);
 	}
@@ -133,6 +135,14 @@ public class PersistantCard implements Card, Attackable, Serializable {
 	@Override
 	public String getID() {
 		return id;
+	}
+
+	public boolean isInPlay() {
+		return inPlay;
+	}
+
+	public void setInPlay(boolean inPlay) {
+		this.inPlay = inPlay;
 	}
 
 }

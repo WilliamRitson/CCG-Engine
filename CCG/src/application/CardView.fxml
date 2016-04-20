@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -12,7 +14,7 @@
 <StackPane fx:id="root" prefHeight="200.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="200.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" styleClass="background" />
-      <VBox prefHeight="200.0" prefWidth="120.0" styleClass="background">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0" styleClass="background">
          <children>
             <HBox prefHeight="100.0" prefWidth="120.0">
                <children>
@@ -26,7 +28,11 @@
                      </font></Text>
                </children>
             </HBox>
-            <ImageView fx:id="image" fitHeight="89.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="image" fitHeight="89.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/img/ace.png" />
+               </image>
+            </ImageView>
             <TextFlow prefHeight="138.0" prefWidth="120.0">
                <children>
                   <Text fx:id="ruleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Card text">
@@ -34,7 +40,13 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-               </children></TextFlow>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></TextFlow>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="120.0">
                <children>
                   <Pane prefHeight="52.0" prefWidth="120.0">

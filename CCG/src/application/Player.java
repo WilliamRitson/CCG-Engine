@@ -16,6 +16,8 @@ public class Player {
 	/** The player's attackable avatar. */
 	private PlayerCharacter playerChar;
 
+	
+
 	/** The player's hand. */
 	private ArrayList<Card> hand;
 
@@ -33,6 +35,10 @@ public class Player {
 
 	/** The player's maximum resource amount. */
 	private int maxResource;
+	
+	public PlayerCharacter getPlayerChar() {
+		return playerChar;
+	}
 
 	public int getMaxResource() {
 		return maxResource;
@@ -86,6 +92,7 @@ public class Player {
 			card.setOwner(this);
 		}
 
+		playerChar.setOwner(this);
 		playerChar.getDamageEvent().addWatcher((Event<ValueChange> event, ValueChange vc) -> {
 			if (vc.getNewVal() <= 0) {
 				die();

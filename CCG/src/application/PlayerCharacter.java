@@ -11,10 +11,25 @@ public class PlayerCharacter implements Attackable {
 	String name;
 	
 	/** The character's current life. */
-	private int life = 30;
+	private int life;
 	
 	/** The character's max life. */
-	private int maxLife = 30;
+	private int maxLife;
+	
+	/** An event that is triggered when this character is damaged. */
+	private  Event<ValueChange> onDamaged;
+
+	private Player parent;
+	
+	public PlayerCharacter() {
+		onDamaged = new Event<ValueChange>();
+		life = 30;
+		maxLife = 30;
+	}
+	
+	public void setOwner(Player newPlayer) {
+		parent = newPlayer;
+	}
 
 	/* (non-Javadoc)
 	 * @see application.Attackable#defend(application.Attackable)
@@ -25,8 +40,7 @@ public class PlayerCharacter implements Attackable {
 		return null;
 	}
 	
-	/** An event that is triggered when this character is damaged. */
-	private  Event<ValueChange> onDamaged = new Event<ValueChange>();
+
 
 	/* (non-Javadoc)
 	 * @see application.Damagable#takeDamage(int, application.Attackable)
@@ -88,6 +102,10 @@ public class PlayerCharacter implements Attackable {
 	@Override
 	public Event<ValueChange> getDamageEvent() {
 		return onDamaged;
+	}
+
+	public Player getParent() {
+		return parent;
 	}
 
 }

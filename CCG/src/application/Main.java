@@ -7,7 +7,19 @@ import javafx.scene.layout.StackPane;
 import javafx.fxml.FXMLLoader;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ * 
+ * This is the entry point for the program
+ */
 public class Main extends Application {
+	
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 * 
+	 * Creates a new app and loads the Match view.
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -22,6 +34,11 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * The main method. This just launches the JavaFX application.
+	 *
+	 * @param args the command line arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
