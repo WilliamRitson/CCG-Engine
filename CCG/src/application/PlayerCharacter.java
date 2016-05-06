@@ -6,32 +6,34 @@ package application;
  * This represents a character avatar for a player which may be attacked.
  */
 public class PlayerCharacter implements Attackable {
-	
+
 	/** The name. */
 	String name;
-	
+
 	/** The character's current life. */
 	private int life;
-	
+
 	/** The character's max life. */
 	private int maxLife;
-	
+
 	/** An event that is triggered when this character is damaged. */
-	private  Event<ValueChange> onDamaged;
+	private Event<ValueChange> onDamaged;
 
 	private Player parent;
-	
+
 	public PlayerCharacter() {
 		onDamaged = new Event<ValueChange>();
 		life = 30;
 		maxLife = 30;
 	}
-	
-	public void setOwner(Player newPlayer) {
+
+	public void setParent(Player newPlayer) {
 		parent = newPlayer;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.Attackable#defend(application.Attackable)
 	 */
 	@Override
@@ -39,10 +41,10 @@ public class PlayerCharacter implements Attackable {
 		this.setLife(this.getLife() - attacker.getEffectiveDamage());
 		return null;
 	}
-	
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.Damagable#takeDamage(int, application.Attackable)
 	 */
 	@Override
@@ -54,7 +56,9 @@ public class PlayerCharacter implements Attackable {
 		return hpChange;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.Damagable#getLife()
 	 */
 	public int getLife() {
@@ -62,12 +66,14 @@ public class PlayerCharacter implements Attackable {
 	}
 
 	/**
-	 * Sets the character's current life.
+	 * Sets the character's current life. The new value cannot be less than 0 or
+	 * greater than the maximum life (or else it will be rounded up or down).
 	 *
-	 * @param life - the new value for the character's life
+	 * @param life
+	 *            - the new value for the character's life
 	 */
 	public void setLife(int life) {
-		this.life = life;
+		this.life = Math.min(Math.max(0, life), maxLife);
 	}
 
 	/**
@@ -80,15 +86,20 @@ public class PlayerCharacter implements Attackable {
 	}
 
 	/**
-	 * Sets the max life.
+	 * Sets the character's max life. Cannot be less than 1. If the characters
+	 * life is higher then the max, it will be reduced to it.
 	 *
-	 * @param maxLife the new max life
+	 * @param maxLife
+	 *            the new max life
 	 */
 	public void setMaxLife(int maxLife) {
-		this.maxLife = maxLife;
+		this.maxLife = Math.max(1, maxLife);
+		this.life = Math.min(life, this.maxLife);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.Attackable#getEffectiveDamage()
 	 */
 	@Override
@@ -96,7 +107,9 @@ public class PlayerCharacter implements Attackable {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.Damagable#getDamageEvent()
 	 */
 	@Override

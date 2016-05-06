@@ -14,7 +14,7 @@ public class PersistantCardTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		owner = new Player(new PlayerCharacter(), new Deck());
+		owner = new Player(new PlayerCharacter(), new Deck(), null);
 
 		card = new PersistantCard("name", "rules",  cost, life, damage);
 		card.setOwner(owner);

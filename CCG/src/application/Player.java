@@ -9,14 +9,12 @@ import java.util.ArrayList;
  * Battlefield, deck and avatar.
  */
 public class Player {
-	
-	/** The total amount of resources a player can have **/
-	static final int resourceLimit = 10; 
+
+	/** The total amount of resources a player can have *. */
+	static final int resourceLimit = 10;
 
 	/** The player's attackable avatar. */
 	private PlayerCharacter playerChar;
-
-	
 
 	/** The player's hand. */
 	private ArrayList<Card> hand;
@@ -27,29 +25,57 @@ public class Player {
 	/** The player's deck. */
 	private Deck deck;
 
-	/** An event that is triggered when the player summons something */
-	public Event<PersistantCard> onSummon;
+	/** An event that is triggered when the player summons something. */
+	private Event<PersistantCard> onSummon;
 
 	/** The player's current resource amount. */
 	private int resource;
 
 	/** The player's maximum resource amount. */
 	private int maxResource;
-	
+
+	/** The current match. */
+	private Match currentMatch;
+
+	/**
+	 * Gets the player char.
+	 *
+	 * @return the player char
+	 */
 	public PlayerCharacter getPlayerChar() {
 		return playerChar;
 	}
 
+	/**
+	 * Gets the player's resource max.
+	 *
+	 * @return the max resource
+	 */
 	public int getMaxResource() {
 		return maxResource;
 	}
 
+	/**
+	 * Sets the max resources. This does not limit the number of resources a
+	 * player has, but rather decides what it will be reset to each turn. Eg a
+	 * player can have 11/10 resources, but the next turn it will be reset to
+	 * 10/10.
+	 *
+	 * @param maxResource
+	 *            the new resource maximum
+	 */
 	public void setMaxResource(int maxResource) {
-		this.maxResource = maxResource;
+		this.maxResource = Math.max(Math.min(maxResource, resourceLimit), 0);
 	}
 
+	/**
+	 * Sets the player's resources.
+	 *
+	 * @param resource
+	 *            the player's new resource value
+	 */
 	public void setResource(int resource) {
-		this.resource = resource;
+		this.resource = Math.max(0, resource);
 	}
 
 	/**
@@ -60,6 +86,40 @@ public class Player {
 	 */
 	public Battlefield getBattlefield() {
 		return field;
+	}
+
+	/**
+	 * Gets the player's opponent.
+	 *
+	 * @return the opponent
+	 */
+	public Player getOpponent() {
+		for (Player player : currentMatch.players) {
+			if (player != this)
+				return player;
+		}
+		return null;
+	}
+
+	/**
+	 * Gets this player's opponent's attackable targets.
+	 *
+	 * @return the opponent targets
+	 */
+	public ArrayList<Attackable> getOpponentTargets() {
+		return getOpponent().getTargets();
+	}
+
+	/**
+	 * Gets the valid attackable targets owned by this character.
+	 *
+	 * @return the targets
+	 */
+	public ArrayList<Attackable> getTargets() {
+		ArrayList<Attackable> targets = new ArrayList<Attackable>(this.getBattlefield().getCards().size() + 1);
+		targets.addAll(getBattlefield().getCards());
+		targets.add(playerChar);
+		return targets;
 	}
 
 	/**
@@ -80,19 +140,22 @@ public class Player {
 	 *            attackable
 	 * @param newDeck
 	 *            - The players deck
+	 * @param match
+	 *            the match
 	 */
-	public Player(PlayerCharacter newChar, Deck newDeck) {
+	public Player(PlayerCharacter newChar, Deck newDeck, Match match) {
 		playerChar = newChar;
 		deck = newDeck;
 		hand = new ArrayList<Card>(10);
 		onSummon = new Event<PersistantCard>();
 		field = new Battlefield();
-		
-		for(Card card: deck.getCards()) {
+		currentMatch = match;
+
+		for (Card card : deck.getCards()) {
 			card.setOwner(this);
 		}
 
-		playerChar.setOwner(this);
+		playerChar.setParent(this);
 		playerChar.getDamageEvent().addWatcher((Event<ValueChange> event, ValueChange vc) -> {
 			if (vc.getNewVal() <= 0) {
 				die();
@@ -143,5 +206,13 @@ public class Player {
 	public int getResource() {
 		return resource;
 	}
+
+	/**
+	 * @return An event that is triggered whenever this player summons a minion
+	 */
+	public Event<PersistantCard> getOnSummon() {
+		return onSummon;
+	}
+
 
 }

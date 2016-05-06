@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 /**
  * The Class Match.
  * 
@@ -27,12 +29,22 @@ public class Match {
 				new PersistantCard("Card 4", "Lots of test", 1, 3, 5),
 				new PersistantCard("Card 5", "Testerzz", 1, 3, 6), new PersistantCard("Card 6", "Demo", 1, 2, 1),
 				new PersistantCard("Card 7", "Card test", 1, 12, 7));
-		localPlayer = new Player(new PlayerCharacter(), testDeck);
+		localPlayer = new Player(new PlayerCharacter(), testDeck, this);
 		localPlayer.drawCards(3);
-		opponent = new Player(new PlayerCharacter(), new Deck());
+		opponent = new Player(new PlayerCharacter(), new Deck(), this);
 		players = new Player[] { localPlayer, opponent };
 		
 		localPlayer.startTurn();
 	}
+	
+	public ArrayList<Attackable> getAllTargets() {
+		ArrayList<Attackable> targets = new ArrayList<Attackable>();
+		targets.addAll(opponent.getBattlefield().getCards());
+		targets.add(opponent.getPlayerChar());
+		targets.addAll(localPlayer.getBattlefield().getCards());
+		targets.add(localPlayer.getPlayerChar());
+		return targets;
+	}
+
 
 }

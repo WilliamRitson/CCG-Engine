@@ -7,7 +7,6 @@ import javafx.scene.layout.StackPane;
 import javafx.fxml.FXMLLoader;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
  * 
