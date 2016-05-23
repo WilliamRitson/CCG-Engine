@@ -99,6 +99,10 @@ public abstract class Card {
 	 */
 	public  String getID() {
 		return id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}; 
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardEditorController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="newCard" mnemonicParsing="false" onAction="#newCard" text="New Card">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#save" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.2167449139280125" prefHeight="800.0" prefWidth="1280.0">
+        <items>
+            <TreeView fx:id="cardList" prefHeight="773.0" prefWidth="514.0" />
+            <VBox prefHeight="773.0" prefWidth="776.0">
+               <children>
+                  <Label text="Cost">
+                     <graphic>
+                        <TextField fx:id="cost" />
+                     </graphic>
+                  </Label>
+                  <Label prefHeight="200.0" prefWidth="863.0" text="Card Text">
+                     <graphic>
+                        <TextArea fx:id="ruleText" prefHeight="200.0" prefWidth="771.0" />
+                     </graphic>
+                  </Label>
+                  <Label text="Card Type">
+                     <graphic>
+                        <ChoiceBox fx:id="cardType" prefWidth="150.0" />
+                     </graphic>
+                  </Label>
+                  <Label text="Attack">
+                     <graphic>
+                        <TextField fx:id="attack" />
+                     </graphic>
+                  </Label>
+                  <Label text="Life">
+                     <graphic>
+                        <TextField fx:id="life" />
+                     </graphic>
+                  </Label>
+               </children>
+            </VBox>
+        </items>
+      </SplitPane>
+   </children>
+</VBox>
