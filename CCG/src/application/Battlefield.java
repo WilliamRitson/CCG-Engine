@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class Battlefield {
 	
 	/** The cards on the field. */
-	private ArrayList<PersistantCard> entities;
+	private ArrayList<Minion> entities;
 	
 	/**
 	 * Gets an array list containing the cards on the battlefield.
 	 *
 	 * @return the cards
 	 */
-	public ArrayList<PersistantCard> getCards() {
+	public ArrayList<Minion> getCards() {
 		return entities;
 	}
 	
@@ -25,7 +25,7 @@ public class Battlefield {
 	 * Instantiates a new empty battlefield.
 	 */
 	public Battlefield() {
-		entities = new ArrayList<PersistantCard>();
+		entities = new ArrayList<Minion>();
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class Battlefield {
 	 *
 	 * @param entity the entity to add
 	 */
-	public void addEntity(PersistantCard entity) {
+	public void addEntity(Minion entity) {
 		entities.add(entity);
 	}
 
@@ -43,7 +43,7 @@ public class Battlefield {
 	 * @param card the card
 	 * @return returns true if the card is present
 	 */
-	public boolean contains(PersistantCard card) {
+	public boolean contains(Minion card) {
 		return entities.contains(card);	
 	}
 	

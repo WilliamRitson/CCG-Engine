@@ -12,6 +12,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.Button;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -66,10 +67,15 @@ public class MatchController {
 			}
 		});
 		update();
-
-
 	}
-
+	
+	@FXML 
+	public void endTurn(MouseEvent event) {
+		System.out.println("end turn");
+		model.endTurn();
+		update();
+	}
+	
 	/**
 	 * This is triggered when a card is dragged over the local players field (eg
 	 * to play it).
@@ -154,8 +160,8 @@ public class MatchController {
 	 * @param cards
 	 *            the cards to append
 	 */
-	void addCards(Pane target, ArrayList<PersistantCard> cards) {
-		for (PersistantCard card : cards) {
+	void addCards(Pane target, ArrayList<Minion> cards) {
+		for (Minion card : cards) {
 			addCardTo(card, target);
 		}
 	}

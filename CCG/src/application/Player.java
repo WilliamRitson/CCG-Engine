@@ -26,7 +26,7 @@ public class Player {
 	private Deck deck;
 
 	/** An event that is triggered when the player summons something. */
-	private Event<PersistantCard> onSummon;
+	private Event<Minion> onSummon;
 
 	/** The player's current resource amount. */
 	private int resource;
@@ -147,7 +147,7 @@ public class Player {
 		playerChar = newChar;
 		deck = newDeck;
 		hand = new ArrayList<Card>(10);
-		onSummon = new Event<PersistantCard>();
+		onSummon = new Event<Minion>();
 		field = new Battlefield();
 		currentMatch = match;
 
@@ -210,7 +210,7 @@ public class Player {
 	/**
 	 * @return An event that is triggered whenever this player summons a minion
 	 */
-	public Event<PersistantCard> getOnSummon() {
+	public Event<Minion> getOnSummon() {
 		return onSummon;
 	}
 

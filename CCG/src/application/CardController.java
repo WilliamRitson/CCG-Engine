@@ -72,9 +72,9 @@ public class CardController {
 		name.setText(model.getName());
 		cost.setText(Integer.toString(model.getCost()));
 		ruleText.setText(model.getDisplayText());
-		if (model instanceof PersistantCard) {
-			life.setText(Integer.toString(((PersistantCard) model).getLife()));
-			damage.setText(Integer.toString(((PersistantCard) model).getEffectiveDamage()));
+		if (model instanceof Minion) {
+			life.setText(Integer.toString(((Minion) model).getLife()));
+			damage.setText(Integer.toString(((Minion) model).getEffectiveDamage()));
 		} else {
 			life.setVisible(false);
 			damage.setVisible(false);

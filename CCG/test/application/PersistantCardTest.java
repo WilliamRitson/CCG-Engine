@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class PersistantCardTest {
 	Player owner;
-	PersistantCard card;
+	Minion card;
 	int cost = 10;
 	int life = 11;
 	int damage = 12;
@@ -16,7 +16,7 @@ public class PersistantCardTest {
 	public void setUp() throws Exception {
 		owner = new Player(new PlayerCharacter(), new Deck(), null);
 
-		card = new PersistantCard("name", "rules",  cost, life, damage);
+		card = new Minion("name", "rules",  cost, life, damage);
 		card.setOwner(owner);
 	}
 
@@ -68,7 +68,7 @@ public class PersistantCardTest {
 
 	@Test
 	public final void testDefend() {
-		PersistantCard card2 = new PersistantCard("name2", "rules", cost, life, damage);
+		Minion card2 = new Minion("name2", "rules", cost, life, damage);
 		card.defend(card2);
 		assertEquals(life - damage, card2.getLife());
 	}
