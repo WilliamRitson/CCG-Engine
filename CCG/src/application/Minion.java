@@ -1,12 +1,21 @@
 package application;
 
+import java.io.File;
 import java.io.Serializable;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * The Class PersistantCard.
  * 
  * This class represents a playable card such as a minion
  */
+@XmlRootElement
 public class Minion extends Card implements Attackable, Serializable {
 
 	/** The Constant serialVersionUID. */
@@ -18,6 +27,43 @@ public class Minion extends Card implements Attackable, Serializable {
 
 	/** The attack damage. */
 	private int damage;
+
+	public int getDamage() {
+		return damage;
+	}
+
+	@XmlElement
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public static Minion loadFromXML(File file) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Minion.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			return (Minion) jaxbUnmarshaller.unmarshal(file);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static void saveToXML(Minion toSave, File destination) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Minion.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			jaxbMarshaller.marshal(toSave, destination);
+			jaxbMarshaller.marshal(toSave, System.out);
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	/** Whether the card is in play. */
 	private boolean inPlay;
@@ -94,7 +140,8 @@ public class Minion extends Card implements Attackable, Serializable {
 	 * @param life
 	 *            - The new amount of life for the card to have
 	 */
-	private void setLife(int life) {
+	@XmlElement
+	public void setLife(int life) {
 		this.life = life;
 	}
 

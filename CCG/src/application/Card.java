@@ -1,6 +1,9 @@
 package application;
 
+import java.io.File;
 import java.util.UUID;
+
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * The Interface Card.
@@ -26,6 +29,30 @@ public abstract class Card {
 		this.cost = cost;
 		this.ruleText = ruleText;
 		this.id = name + ":" + UUID.randomUUID();
+	}
+	
+	public static Card loadFromXML(File source) {
+		return Minion.loadFromXML(source);
+	}
+	
+	public static void saveToXML(Card toSave, File destination) {
+		if (toSave instanceof Minion)
+			Minion.saveToXML((Minion) toSave, destination);
+	}
+
+	
+	public String getRuleText() {
+		return ruleText;
+	}
+
+	@XmlElement
+	public void setRuleText(String ruleText) {
+		this.ruleText = ruleText;
+	}
+
+	@XmlElement
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 	
 	/**
@@ -101,6 +128,7 @@ public abstract class Card {
 		return id;
 	}
 
+	@XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}; 

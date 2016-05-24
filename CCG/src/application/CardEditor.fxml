@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.VBox?>
@@ -38,38 +35,10 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.2167449139280125" prefHeight="800.0" prefWidth="1280.0">
+      <SplitPane dividerPositions="0.21205007824726135" prefHeight="800.0" prefWidth="1280.0">
         <items>
-            <TreeView fx:id="cardList" prefHeight="773.0" prefWidth="514.0" />
-            <VBox prefHeight="773.0" prefWidth="776.0">
-               <children>
-                  <Label text="Cost">
-                     <graphic>
-                        <TextField fx:id="cost" />
-                     </graphic>
-                  </Label>
-                  <Label prefHeight="200.0" prefWidth="863.0" text="Card Text">
-                     <graphic>
-                        <TextArea fx:id="ruleText" prefHeight="200.0" prefWidth="771.0" />
-                     </graphic>
-                  </Label>
-                  <Label text="Card Type">
-                     <graphic>
-                        <ChoiceBox fx:id="cardType" prefWidth="150.0" />
-                     </graphic>
-                  </Label>
-                  <Label text="Attack">
-                     <graphic>
-                        <TextField fx:id="attack" />
-                     </graphic>
-                  </Label>
-                  <Label text="Life">
-                     <graphic>
-                        <TextField fx:id="life" />
-                     </graphic>
-                  </Label>
-               </children>
-            </VBox>
+            <TreeView fx:id="cardList" prefHeight="773.0" prefWidth="446.0" />
+            <TabPane fx:id="cardTabs" prefHeight="773.0" prefWidth="911.0" tabClosingPolicy="UNAVAILABLE" />
         </items>
       </SplitPane>
    </children>
