@@ -1,36 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="773.0" prefWidth="776.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.91" fx:controller="application.CardEditorTabController">
+<VBox prefHeight="773.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardEditorTabController">
    <children>
-      <Label text="Cost">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Label contentDisplay="RIGHT" text="Card Type">
+               <graphic>
+                  <ChoiceBox fx:id="cardType" prefWidth="150.0" />
+               </graphic>
+            </Label>
+            <Label contentDisplay="RIGHT" text="Card Class">
+               <graphic>
+                  <ChoiceBox fx:id="cardClass" prefWidth="150.0" /> 
+               </graphic>
+            </Label>
+            <Label contentDisplay="RIGHT" text="Mana Cost">
+               <graphic>
+                  <TextField fx:id="cost" />
+               </graphic>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Label contentDisplay="RIGHT" text="Rarity">
+               <graphic>
+                  <ChoiceBox fx:id="cardRarity" prefWidth="150.0" />
+               </graphic>
+            </Label>
+            <Label contentDisplay="RIGHT" text="Set">
+               <graphic>
+                  <ChoiceBox fx:id="cardSet" prefWidth="150.0" />
+               </graphic>
+            </Label>
+            <CheckBox fx:id="cardIsCollectable" mnemonicParsing="false" text="Collectable" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Label contentDisplay="RIGHT" text="Attack">
+               <graphic>
+                  <TextField fx:id="attack" />
+               </graphic>
+            </Label>
+            <Label contentDisplay="RIGHT" text="Life">
+               <graphic>
+                  <TextField fx:id="life" />
+               </graphic>
+            </Label>
+            <Label contentDisplay="RIGHT" text="Card Subtype">
+               <graphic>
+                  <ChoiceBox fx:id="cardSubtype" prefWidth="150.0" />
+               </graphic>
+            </Label>
+         </children>
+      </HBox>
+      <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="200.0" prefWidth="721.0" text="Card Text">
          <graphic>
-            <TextField fx:id="cost" />
-         </graphic>
-      </Label>
-      <Label text="Card Type">
-         <graphic>
-            <ChoiceBox fx:id="cardType" prefWidth="150.0" />
-         </graphic>
-      </Label>
-      <Label text="Attack">
-         <graphic>
-            <TextField fx:id="attack" />
-         </graphic>
-      </Label>
-      <Label text="Life">
-         <graphic>
-            <TextField fx:id="life" />
-         </graphic>
-      </Label>
-      <Label prefHeight="200.0" prefWidth="863.0" text="Card Text">
-         <graphic>
-            <TextArea fx:id="ruleText" prefHeight="200.0" prefWidth="771.0" />
+            <TextArea fx:id="ruleText" prefHeight="192.0" prefWidth="664.0" />
          </graphic>
       </Label>
    </children>

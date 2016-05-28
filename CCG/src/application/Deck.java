@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
  */
 public class Deck {
 
+	public static final int maxSize = 30;
+
 	/** An event that is triggered when the player draws a card */
 	public Event<Card> onCardDraw;
 
@@ -66,6 +68,25 @@ public class Deck {
 	public String toString() {
 		return "Deck: (" + cards.size() + " ): "
 				+ cards.stream().map((Card c) -> c.getName()).collect(Collectors.joining(", ", "{", "}"));
+	}
+
+	public void addCard(Card toAdd) {
+		Card newCard = null;
+		if (toAdd instanceof Minion) {
+			newCard = new Minion((Minion) toAdd);
+		} else if (toAdd instanceof Spell) {
+			newCard = new Spell((Spell) toAdd);
+		} else if (toAdd instanceof Weapon) {
+			newCard = new Weapon((Weapon) toAdd);
+		}
+		cards.add(newCard);
+	}
+
+	public void addCard(Card card, int count) {
+		for (int i = 0; i < count; i += 1) {
+			addCard(card);
+		}
+		
 	}
 
 }

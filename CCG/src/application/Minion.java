@@ -101,6 +101,10 @@ public class Minion extends Card implements Attackable, Serializable {
 		this("", "", 0, 0, 0);
 	}
 
+	public Minion(Minion toClone) {
+		this(toClone.getName(), toClone.getRuleText(), toClone.getCost(), toClone.getLife(), toClone.getDamage());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

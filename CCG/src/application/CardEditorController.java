@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -18,8 +17,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -35,40 +32,32 @@ public class CardEditorController {
 	private TabPane cardTabs;
 
 	@FXML
-	private TreeView<String> cardList;
+	private TreeView<File> cardList;
 
 	private HashSet<Card> allCards = new HashSet<Card>();
 	
 	private Hashtable<Tab, CardEditorTabController> tabControllers = new Hashtable<Tab, CardEditorTabController>();
 		
-	private final Node rootIcon = new ImageView(new Image("file:@../resources/img/folder.png"));
+	//private final Node rootIcon = new ImageView(new Image("file:@../resources/img/folder.png"));
 
 	private final File rootDirectory = new File("cards");
 
-	TreeItem<String> directoryTree;
 
-	private TreeItem<String> rootTreeItem;
+	private TreeItem<File> rootTreeItem;
 	
 	public void selectItem(MouseEvent mouseEvent) {
-		TreeItem<String> item = cardList.getSelectionModel().getSelectedItem();
-		System.out.println("Selected Text : " + item.getValue());
+		TreeItem<File> item = cardList.getSelectionModel().getSelectedItem();
 
-		File selected = new File(rootDirectory + "/" + item.getValue());
+		File selected = item.getValue();
 		if (!selected.isDirectory()) {
 			openTab(selected);
 		}
 	}
 	
-	private File treeItemToFile(TreeItem<String> item) {
-		return  new File(rootDirectory.getPath() + "/" + item.getValue());
-	}
 	
-	private TreeItem<String> getTreeAddPath() {
-		TreeItem<String> selectedTreeItem = cardList.getSelectionModel().getSelectedItem();
-		if (selectedTreeItem == rootTreeItem) {
-			return rootTreeItem;
-		}
-		File selected = treeItemToFile(selectedTreeItem);
+	private TreeItem<File> getTreeAddPath() {
+		TreeItem<File> selectedTreeItem = cardList.getSelectionModel().getSelectedItem();
+		File selected = selectedTreeItem.getValue();
 		if (selected.isDirectory()) {
 			return selectedTreeItem;
 		} else {
@@ -77,11 +66,12 @@ public class CardEditorController {
 	}
 	
 	private void makeSubdirectory(File directory) {
-		TreeItem<String> addPos = getTreeAddPath();
-		String childPath = directory.getPath() + "/" + "sub";
+		TreeItem<File> addPos = getTreeAddPath();
+		String folderName = (new TextInputDialog()).showAndWait().get();
+		String childPath = directory.getPath() + File.separator + folderName;
 		File child = new File(childPath);
-		child.mkdir();
-		addPos.getChildren().add(directoryItem(child));
+		child.mkdirs();
+		addPos.getChildren().add(new TreeItem<File>(child));
 	}
 	
 	public void addCardListMenu() {
@@ -95,13 +85,13 @@ public class CardEditorController {
         addCard.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				addCardToFolder(treeItemToFile(getTreeAddPath()));
+				addCardToFolder(getTreeAddPath());
 			}
         });
         addDirectory.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				makeSubdirectory(treeItemToFile(getTreeAddPath()));
+				makeSubdirectory(getTreeAddPath().getValue());
 			}
         });
         rename.setOnAction(new EventHandler<ActionEvent>() {
@@ -127,21 +117,6 @@ public class CardEditorController {
 		addCardListMenu();
 	}
 
-	private TreeItem<String> cardItem(String name) {
-		TreeItem<String> item = new TreeItem<String>(name);
-		item.addEventHandler(ActionEvent.ANY, new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
-				System.out.println("aciton on " + name);
-			};
-		});
-		return item;
-	}
-	
-	private TreeItem<String> directoryItem(File directory) {
-		TreeItem<String> dir = new TreeItem<String>(directory.getName(), rootIcon);       
-        return dir;
-	}
-
 	/**
 	 * This function recursively builds a tree structure representing a
 	 * directory and its sub-directories
@@ -151,14 +126,14 @@ public class CardEditorController {
 	 * @return - A tree representing all the files and folders in the directory
 	 *         and its children.
 	 */
-	private TreeItem<String> buildDirectoryTree(File currentDirectory) {
-		TreeItem<String> dir = directoryItem(currentDirectory);
+	private TreeItem<File> buildDirectoryTree(File currentDirectory) {
+		TreeItem<File> dir = new TreeItem<File>(currentDirectory);
 		File[] list = currentDirectory.listFiles();
 		for (int i = 0; i < list.length; i += 1) {
 			if (list[i].isDirectory()) {
 				dir.getChildren().add(buildDirectoryTree(list[i]));
 			} else {
-				dir.getChildren().add(cardItem(list[i].getName()));
+				dir.getChildren().add(new TreeItem<File>(list[i]));
 				allCards.add(Card.loadFromXML(list[i]));
 			}
 		}
@@ -190,7 +165,7 @@ public class CardEditorController {
 		}
 	}
 	
-	void addCardToFolder(File folder) {
+	void addCardToFolder(TreeItem<File> addLoc) {
 		Card newCard = new Minion();
 		
 		TextInputDialog nameDialog = new TextInputDialog();
@@ -199,16 +174,16 @@ public class CardEditorController {
 		nameDialog.setContentText("New Card name:");
 		newCard.setName(nameDialog.showAndWait().get());
 		
-		File saveFile = new File(folder.getPath() + "/" + newCard.getName() + ".xml");
+		File saveFile = new File(addLoc.getValue().getPath() + "/" + newCard.getName() + ".xml");
 		Card.saveToXML(newCard, saveFile);
-		directoryTree.getChildren().add(cardItem(saveFile.getName()));
+		addLoc.getChildren().add(new TreeItem<File>(saveFile));
 		openTab(saveFile);
 		allCards.add(newCard);
 	}
 
 	@FXML
 	void newCard(ActionEvent event) {
-		addCardToFolder(rootDirectory);
+		addCardToFolder(rootTreeItem);
 	}
 
 
