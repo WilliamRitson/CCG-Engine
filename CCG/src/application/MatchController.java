@@ -23,7 +23,7 @@ import javafx.scene.layout.StackPane;
  * 
  * This class is used to control the Match UI which governs a single game.
  */
-public class MatchController {
+public class MatchController extends ViewController{
 
 	/**
 	 * The model of the Match. This object stores all the game logic behind the

@@ -1,7 +1,6 @@
 package application;
 
 import java.io.File;
-import java.io.Serializable;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,27 +15,46 @@ import javax.xml.bind.annotation.XmlRootElement;
  * This class represents a playable card such as a minion
  */
 @XmlRootElement
-public class Minion extends Card implements Attackable, Serializable {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4307839066400531082L;
-
+public class Minion extends Card implements Attackable {
 
 	/** The card's current life. */
 	private int life;
 
 	/** The attack damage. */
 	private int damage;
+	
+	/** Whether the card is in play. */
+	private boolean inPlay;
 
+	/**  An event that is triggered when the card is damaged. */
+	private Event<ValueChange> onDamaged;
+
+
+	/**
+	 * Gets the damage.
+	 *
+	 * @return the damage
+	 */
 	public int getDamage() {
 		return damage;
 	}
 
+	/**
+	 * Sets the damage.
+	 *
+	 * @param damage the new damage
+	 */
 	@XmlElement
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 	
+	/**
+	 * Loads a minion from an xml file.
+	 *
+	 * @param file The xml source file
+	 * @return A minion built from the xml file
+	 */
 	public static Minion loadFromXML(File file) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Minion.class);
@@ -48,6 +66,12 @@ public class Minion extends Card implements Attackable, Serializable {
 		}
 	}
 	
+	/**
+	 * Saves the minion to an xml file.
+	 *
+	 * @param toSave the minion to save
+	 * @param destination the file to save the minion to
+	 */
 	public static void saveToXML(Minion toSave, File destination) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Minion.class);
@@ -63,14 +87,6 @@ public class Minion extends Card implements Attackable, Serializable {
 			e.printStackTrace();
 		}
 	}
-
-
-	/** Whether the card is in play. */
-	private boolean inPlay;
-
-	/**  An event that is triggered when the card is damaged. */
-	private Event<ValueChange> onDamaged;
-
 
 	/**
 	 * Constructs a new card.
@@ -101,6 +117,10 @@ public class Minion extends Card implements Attackable, Serializable {
 		this("", "", 0, 0, 0);
 	}
 
+	/**
+	 * Constructs a new minion that is a clone of an existing one but has a new game ID.
+	 * @param toClone - The base card to clone
+	 */
 	public Minion(Minion toClone) {
 		this(toClone.getName(), toClone.getRuleText(), toClone.getCost(), toClone.getLife(), toClone.getDamage());
 	}
