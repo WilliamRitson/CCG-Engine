@@ -20,31 +20,47 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-public class CardEditorController {
+/**
+ * The Class CardEditorController.
+ */
+public class CardEditorController extends ViewController {
 
+	/** The Menu option that creates a new card. */
 	@FXML
 	private MenuItem newCard;
 
+	/** The save. */
 	@FXML
 	private MenuItem save;
 
+	/** The card tabs. */
 	@FXML
 	private TabPane cardTabs;
 
+	/** The card list. */
 	@FXML
 	private TreeView<File> cardList;
 
+	/** The set of all existing cards. */
 	private HashSet<Card> allCards = new HashSet<Card>();
 	
+	/** The controller for each tab. */
 	private Hashtable<Tab, CardEditorTabController> tabControllers = new Hashtable<Tab, CardEditorTabController>();
 		
 	//private final Node rootIcon = new ImageView(new Image("file:@../resources/img/folder.png"));
 
+	/** The root directory to load content from. */
 	private final File rootDirectory = new File("cards");
 
 
+	/** The root tree item in the file tree. */
 	private TreeItem<File> rootTreeItem;
 	
+	/**
+	 * Selects an item from the tree view. If its a card opens a tab for it.
+	 *
+	 * @param mouseEvent the mouse event
+	 */
 	public void selectItem(MouseEvent mouseEvent) {
 		TreeItem<File> item = cardList.getSelectionModel().getSelectedItem();
 
@@ -55,6 +71,11 @@ public class CardEditorController {
 	}
 	
 	
+	/**
+	 * Gets the tree add path.
+	 *
+	 * @return the tree add path
+	 */
 	private TreeItem<File> getTreeAddPath() {
 		TreeItem<File> selectedTreeItem = cardList.getSelectionModel().getSelectedItem();
 		File selected = selectedTreeItem.getValue();
@@ -65,6 +86,11 @@ public class CardEditorController {
 		}
 	}
 	
+	/**
+	 * Make subdirectory.
+	 *
+	 * @param directory the directory
+	 */
 	private void makeSubdirectory(File directory) {
 		TreeItem<File> addPos = getTreeAddPath();
 		String folderName = (new TextInputDialog()).showAndWait().get();
@@ -74,6 +100,9 @@ public class CardEditorController {
 		addPos.getChildren().add(new TreeItem<File>(child));
 	}
 	
+	/**
+	 * Adds the card list menu.
+	 */
 	public void addCardListMenu() {
 		ContextMenu treeMenu = new ContextMenu();
         MenuItem addCard = new MenuItem("Add Card");
@@ -108,6 +137,9 @@ public class CardEditorController {
         cardList.setContextMenu(treeMenu);
 	}
 
+	/**
+	 * Initialize the controller.
+	 */
 	@FXML
 	public void initialize() {
 		cardTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
@@ -119,10 +151,9 @@ public class CardEditorController {
 
 	/**
 	 * This function recursively builds a tree structure representing a
-	 * directory and its sub-directories
-	 * 
-	 * @param currentDirectory
-	 *            - The top level directory to search.
+	 * directory and its sub-directories.
+	 *
+	 * @param currentDirectory            - The top level directory to search.
 	 * @return - A tree representing all the files and folders in the directory
 	 *         and its children.
 	 */
@@ -140,6 +171,11 @@ public class CardEditorController {
 		return dir;
 	}
 
+	/**
+	 * Open tab.
+	 *
+	 * @param cardFile the card file
+	 */
 	void openTab(File cardFile) {
 		try {
 			Tab newTab = new Tab();
@@ -165,6 +201,11 @@ public class CardEditorController {
 		}
 	}
 	
+	/**
+	 * Adds the card to folder.
+	 *
+	 * @param addLoc the add loc
+	 */
 	void addCardToFolder(TreeItem<File> addLoc) {
 		Card newCard = new Minion();
 		
@@ -181,12 +222,22 @@ public class CardEditorController {
 		allCards.add(newCard);
 	}
 
+	/**
+	 * New card.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void newCard(ActionEvent event) {
 		addCardToFolder(rootTreeItem);
 	}
 
 
+	/**
+	 * Saves all the open cards.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void save(ActionEvent event) {
 		for (Tab tab: cardTabs.getTabs()) {

@@ -99,8 +99,6 @@ public abstract class Card {
 	public void setRarity(String rarity) {
 		this.rarity = rarity;
 	}
-
-
 	
 	/**
 	 * Instantiates a new card.
@@ -141,7 +139,6 @@ public abstract class Card {
 		if (toSave instanceof Minion)
 			Minion.saveToXML((Minion) toSave, destination);
 	}
-
 	
 	/**
 	 * Gets the card's rule text.
@@ -310,5 +307,4 @@ public abstract class Card {
 	public void setCardId(String cardId) {
 		this.cardId = cardId;
 	}; 
-
 }
