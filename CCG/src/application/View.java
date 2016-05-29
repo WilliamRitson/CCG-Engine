@@ -1,5 +1,5 @@
 package application;
 
 public enum View {
-	MainMenu, Match, CardEditor
+	MainMenu, Match, CardEditor, GameEditor
 }

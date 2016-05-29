@@ -7,6 +7,7 @@ public abstract class ViewController {
 	 * @param parent the parent to set
 	 */
 	public void setParent(CollectableCardEngine parent) {
+		System.out.println("parent is set");
 		this.parent = parent;
 	}
 	

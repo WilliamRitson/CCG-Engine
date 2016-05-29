@@ -1,6 +1,7 @@
 package application;
 	
 import java.util.Map;
+import java.net.URL;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -60,16 +61,18 @@ public class CollectableCardEngine extends Application {
 	
 	private void showView(String fxmlFileName, String cssFileName) {
 		try {
+			URL url = getClass().getResource(fxmlFileName);
 			FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(getClass().getResource(fxmlFileName));
+			fxmlLoader.setLocation(url);
 			fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());			
-			Pane root = (Pane) FXMLLoader.load(getClass().getResource(fxmlFileName));
+			Pane root = (Pane) fxmlLoader.load(url.openStream());
 			Scene scene = new Scene(root, 1280, 800);
 			scene.getStylesheets().add(getClass().getResource(cssFileName).toExternalForm());
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			ViewController controller = fxmlLoader.<ViewController> getController();
+			System.out.println("cont " + controller);
 			controller.setParent(this);
 			
 		} catch(Exception e) {
