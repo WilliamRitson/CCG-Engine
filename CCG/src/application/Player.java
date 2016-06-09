@@ -2,6 +2,9 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The Class Player.
  * 
@@ -29,10 +32,10 @@ public class Player {
 	private Event<Minion> onSummon;
 
 	/** The player's current resource amount. */
-	private int resource;
+	private IntegerProperty resource = new SimpleIntegerProperty();
 
 	/** The player's maximum resource amount. */
-	private int maxResource;
+	private IntegerProperty maxResource  = new SimpleIntegerProperty();;
 
 	/** The current match. */
 	private Match currentMatch;
@@ -52,7 +55,7 @@ public class Player {
 	 * @return the max resource
 	 */
 	public int getMaxResource() {
-		return maxResource;
+		return maxResource.get();
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class Player {
 	 *            the new resource maximum
 	 */
 	public void setMaxResource(int maxResource) {
-		this.maxResource = Math.max(Math.min(maxResource, resourceLimit), 0);
+		this.maxResource.set(Math.max(Math.min(maxResource, resourceLimit), 0));
 	}
 
 	/**
@@ -75,7 +78,7 @@ public class Player {
 	 *            the player's new resource value
 	 */
 	public void setResource(int resource) {
-		this.resource = Math.max(0, resource);
+		this.resource.set(Math.max(0, resource));
 	}
 
 	/**
@@ -127,9 +130,10 @@ public class Player {
 	 * increase and their current resource to be restored to max;
 	 */
 	public void startTurn() {
-		if (maxResource < resourceLimit)
-			maxResource++;
-		resource = maxResource;
+		if (maxResource.get() < resourceLimit)
+			maxResource.set(maxResource.get() + 1);
+		resource.set(maxResource.get());
+		drawCard();
 	}
 
 	/**
@@ -204,6 +208,10 @@ public class Player {
 	 * @return - The amount of resources the player currently has
 	 */
 	public int getResource() {
+		return resource.get();
+	}
+	
+	public IntegerProperty getResourceProperty() {
 		return resource;
 	}
 
@@ -212,6 +220,15 @@ public class Player {
 	 */
 	public Event<Minion> getOnSummon() {
 		return onSummon;
+	}
+
+	public IntegerProperty getMaxResourcePropety() {
+		return maxResource;
+	}
+
+	public Deck getDeck() {
+		return deck;
+		
 	}
 
 

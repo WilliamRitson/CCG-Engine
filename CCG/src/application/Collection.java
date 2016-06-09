@@ -3,6 +3,7 @@ package application;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class Collection {
 	
@@ -27,11 +28,17 @@ public class Collection {
 	
 	Deck getRandomDeck() {
 		Deck newDeck = new Deck();
-		Collections.shuffle(allCards);
+		//Collections.shuffle(allCards);
 		for (int i = 0; i < Deck.maxSize / 2; i += 1) {
-			newDeck.addCard(allCards.get(i), 2);			
+			//newDeck.addCard(allCards.get(i), 2);
+			newDeck.addCard(randomCard());
 		}
 		return newDeck;
+	}
+	
+	Card randomCard() {
+		Random r = new Random();	
+		return new Minion("R: " + r.nextInt(99), " ", r.nextInt(10), 1 + r.nextInt(9), r.nextInt(10));
 	}
 
 

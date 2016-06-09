@@ -1,5 +1,8 @@
 package application;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The Class PlayerCharacter.
  * 
@@ -11,7 +14,7 @@ public class PlayerCharacter implements Attackable {
 	String name;
 
 	/** The character's current life. */
-	private int life;
+	private IntegerProperty life = new SimpleIntegerProperty();
 
 	/** The character's max life. */
 	private int maxLife;
@@ -23,7 +26,7 @@ public class PlayerCharacter implements Attackable {
 
 	public PlayerCharacter() {
 		onDamaged = new Event<ValueChange>();
-		life = 30;
+		life.set(30);
 		maxLife = 30;
 	}
 
@@ -49,9 +52,9 @@ public class PlayerCharacter implements Attackable {
 	 */
 	@Override
 	public ValueChange takeDamage(int amount, Attackable source) {
-		ValueChange hpChange = new ValueChange(this.life);
+		ValueChange hpChange = new ValueChange(this.life.get());
 		this.setLife(this.getLife() - amount);
-		hpChange.setNewVal(this.life);
+		hpChange.setNewVal(this.life.get());
 		onDamaged.fire(hpChange);
 		return hpChange;
 	}
@@ -62,6 +65,10 @@ public class PlayerCharacter implements Attackable {
 	 * @see application.Damagable#getLife()
 	 */
 	public int getLife() {
+		return life.get();
+	}
+	
+	public IntegerProperty getLifeProperty() {
 		return life;
 	}
 
@@ -73,7 +80,7 @@ public class PlayerCharacter implements Attackable {
 	 *            - the new value for the character's life
 	 */
 	public void setLife(int life) {
-		this.life = Math.min(Math.max(0, life), maxLife);
+		this.life.set(Math.min(Math.max(0, life), maxLife));
 	}
 
 	/**
@@ -94,7 +101,7 @@ public class PlayerCharacter implements Attackable {
 	 */
 	public void setMaxLife(int maxLife) {
 		this.maxLife = Math.max(1, maxLife);
-		this.life = Math.min(life, this.maxLife);
+		this.life.set(Math.min(life.get(), this.maxLife));
 	}
 
 	/*

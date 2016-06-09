@@ -1,5 +1,6 @@
 package application;
 
+import javafx.beans.binding.StringExpression;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
@@ -32,21 +33,19 @@ public class PlayerCharacterController {
     private Text heroPowerCost;
     
     private PlayerCharacter model;
-    
-    
-    @FXML
-    public void initilize() {
-    	update();
-    }
-    
-    public void update() {
-    	manaTotal.setText(model.getParent().getResource() + "/" + model.getParent().getMaxResource());
-    	life.setText(Integer.toString((model.getLife())));
+        
+    public void bindModel() { 	
+    	StringExpression manaText = model.getParent().getResourceProperty().asString()
+    			.concat("/")
+    			.concat(model.getParent().getMaxResourcePropety().asString());
+		manaTotal.textProperty().bind(manaText);
+		life.textProperty().bind(model.getLifeProperty().asString());
     	heroPowerCost.setText("2");
     }
     
     public void setModel(PlayerCharacter newModel) {
 		model = newModel;
+		bindModel();
 		
 	}
 }

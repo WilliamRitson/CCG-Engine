@@ -66,22 +66,6 @@ public class CardController {
 	}
 
 	/**
-	 * Updates the cards fields with new values from the model;
-	 */
-	private void update() {
-		name.setText(model.getName());
-		cost.setText(Integer.toString(model.getCost()));
-		ruleText.setText(model.getDisplayText());
-		if (model instanceof Minion) {
-			life.setText(Integer.toString(((Minion) model).getLife()));
-			damage.setText(Integer.toString(((Minion) model).getEffectiveDamage()));
-		} else {
-			life.setVisible(false);
-			damage.setVisible(false);
-		}
-	};
-
-	/**
 	 * Drag play.
 	 *
 	 * @param event
@@ -125,7 +109,23 @@ public class CardController {
 	 */
 	public void setModel(Card model) {
 		this.model = model;
-		update();
+		bindModel();
+	}
+	
+	/**
+	 * Binds to UI to a model
+	 */
+	private void bindModel() {
+		cost.textProperty().bind(model.getCostProperty().asString());
+		name.setText(model.getName());
+		ruleText.setText(model.getDisplayText());
+		if (model instanceof Minion) {
+			life.textProperty().bind(((Minion) model).getLifeProperty().asString());
+			damage.textProperty().bind(((Minion) model).getDamageProperty().asString());
+		} else {
+			life.setVisible(false);
+			damage.setVisible(false);
+		}
 	}
 
 }

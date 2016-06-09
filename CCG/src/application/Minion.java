@@ -9,6 +9,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The Class PersistantCard.
  * 
@@ -18,10 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Minion extends Card implements Attackable {
 
 	/** The card's current life. */
-	private int life;
+	private IntegerProperty life = new SimpleIntegerProperty();
 
 	/** The attack damage. */
-	private int damage;
+	private IntegerProperty damage = new SimpleIntegerProperty();;
 	
 	/** Whether the card is in play. */
 	private boolean inPlay;
@@ -36,7 +39,15 @@ public class Minion extends Card implements Attackable {
 	 * @return the damage
 	 */
 	public int getDamage() {
+		return damage.get();
+	}
+	
+	public IntegerProperty getDamageProperty() {
 		return damage;
+	}
+	
+	public IntegerProperty getLifeProperty() {
+		return life;
 	}
 
 	/**
@@ -46,7 +57,7 @@ public class Minion extends Card implements Attackable {
 	 */
 	@XmlElement
 	public void setDamage(int damage) {
-		this.damage = damage;
+		this.damage.set(damage);
 	}
 	
 	/**
@@ -105,8 +116,8 @@ public class Minion extends Card implements Attackable {
 	public Minion(String name, String ruleText, int cost, int life, int damage) {
 		super(name, ruleText, cost);
 
-		this.life = life;
-		this.damage = damage;
+		this.life.set(life);
+		this.damage.set(damage);
 		onDamaged = new Event<ValueChange>();
 	}
 
@@ -155,7 +166,7 @@ public class Minion extends Card implements Attackable {
 	 */
 	@Override
 	public int getLife() {
-		return life;
+		return life.get();
 	}
 
 	/**
@@ -166,7 +177,7 @@ public class Minion extends Card implements Attackable {
 	 */
 	@XmlElement
 	public void setLife(int life) {
-		this.life = life;
+		this.life.set(life);
 	}
 
 	/*
@@ -176,9 +187,9 @@ public class Minion extends Card implements Attackable {
 	 */
 	@Override
 	public ValueChange takeDamage(int amount, Attackable source) {
-		ValueChange hpChange = new ValueChange(this.life);
+		ValueChange hpChange = new ValueChange(this.life.get());
 		this.setLife(this.getLife() - amount);
-		hpChange.setNewVal(this.life);
+		hpChange.setNewVal(this.life.get());
 		onDamaged.fire(hpChange);
 		return hpChange;
 	}
@@ -190,7 +201,7 @@ public class Minion extends Card implements Attackable {
 	 */
 	@Override
 	public int getEffectiveDamage() {
-		return damage;
+		return damage.get();
 	}
 
 	/*

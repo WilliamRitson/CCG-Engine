@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The Interface Card.
  */
@@ -19,7 +22,7 @@ public abstract class Card {
 	private String name;
 	
 	/** The card's resource cost. */
-	private int cost;
+	private IntegerProperty cost = new SimpleIntegerProperty() ;
 	
 	/**  The card text that explains its rules. */
 	private String ruleText;
@@ -109,7 +112,7 @@ public abstract class Card {
 	 */
 	public Card(String name, String ruleText, int cost) {
 		this.name = name;
-		this.cost = cost;
+		this.cost.set(cost);
 		this.ruleText = ruleText;
 		this.rarity = "Common";
 		this.set = "Classic";
@@ -166,7 +169,7 @@ public abstract class Card {
 	 */
 	@XmlElement
 	public void setCost(int cost) {
-		this.cost = cost;
+		this.cost.set(cost);
 	}
 	
 	/**
@@ -184,6 +187,10 @@ public abstract class Card {
 	 * @return The resource cost of the card
 	 */
 	public int getCost() {
+		return cost.get();
+	}
+	
+	public IntegerProperty getCostProperty() {
 		return cost;
 	}
 
@@ -195,7 +202,7 @@ public abstract class Card {
 	 *         consideration, such as a valid target)
 	 */
 	public boolean isPlayable() {
-		return owner.getResource() >= cost;
+		return owner.getResource() >= cost.get();
 	}
 
 	/**

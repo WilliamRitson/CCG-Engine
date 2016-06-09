@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayerCharacterController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayerCharacterController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -58,9 +58,9 @@
                </children>
             </StackPane>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d1a6ec" height="40.0" layoutX="-39.0" layoutY="-74.0" stroke="BLACK" strokeType="INSIDE" width="80.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="7.0" />
-            <Text fx:id="manaTotal" fill="WHITE" layoutY="40.84765625" stroke="BLACK" strokeType="OUTSIDE" text="0/0" textAlignment="CENTER" wrappingWidth="57.39999485015869" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="1.0">
+            <Text fx:id="manaTotal" fill="WHITE" layoutX="15.0" layoutY="36.0" stroke="BLACK" strokeType="OUTSIDE" text="00/00" textAlignment="CENTER" wrappingWidth="80.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.1015625">
                <font>
-                  <Font size="36.0" />
+                  <Font size="24.0" />
                </font>
             </Text>
          </children>

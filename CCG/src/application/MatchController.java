@@ -5,10 +5,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -44,7 +46,7 @@ public class MatchController extends ViewController{
 
 	/** The UI for the local player's field. */
 	@FXML
-	HBox localPlayerField;
+	HBox playerField;
 	
 	@FXML
 	Button endTurn;	
@@ -56,24 +58,51 @@ public class MatchController extends ViewController{
 	@FXML
 	void initialize() {
 		model = new Match();
-		localPlayerField.setOnDragOver(new EventHandler<DragEvent>() {
+		
+		// Cards are always added to the player hand due to the current hot seat setup. This needs to change latter
+		model.localPlayer.getDeck().onCardDraw.addWatcher((Event<Card> event, Card drawnCard) -> {
+			addCardTo(drawnCard, playerHand);
+		});
+		model.opponent.getDeck().onCardDraw.addWatcher((Event<Card> event, Card drawnCard) -> {
+			addCardTo(drawnCard, playerHand);
+		});
+		
+		// Refactor this to make it happen from FXML
+		playerField.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				cardOver(event);
 			}
 		});
-		localPlayerField.setOnDragDropped(new EventHandler<DragEvent>() {
+		playerField.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				cardPlayed(event);
 			}
 		});
-		update();
+		initilizeUI();
+	}
+	
+	private void swapLists(HBox one, HBox two) {
+		int oneSize = one.getChildren().size();
+		int twoSize = two.getChildren().size();
+		for (int i = 0; i < twoSize; i++) {
+			moveCard(0, two, one);
+		}
+		for (int i = 0; i < oneSize; i++) {
+			moveCard(0, one, two);
+		}
+	}
+	
+	private void flipUI() {
+		swapLists(playerHand, opponentHand);
+		swapLists(playerField, opponentField);		
 	}
 	
 	@FXML 
 	public void endTurn(MouseEvent event) {
-		System.out.println("end turn");
+		flipUI();
 		model.endTurn();
-		update();
+		//update();
+		
 	}
 	
 	/**
@@ -98,6 +127,15 @@ public class MatchController extends ViewController{
 		event.acceptTransferModes(TransferMode.MOVE);
 		event.consume();
 	}
+	
+	int getCardIndex(ArrayList<Card> cards, String id) {
+		for (int i = 0; i < cards.size(); i++) {
+			if (cards.get(i).getID().equals(id))
+				return i;
+		}
+		return -1;
+	}
+	
 
 	/**
 	 * This handler is triggered when the local player finishes dragging and
@@ -108,31 +146,26 @@ public class MatchController extends ViewController{
 	 *            the event
 	 */
 	private void cardPlayed(DragEvent event) {
-		Dragboard db = event.getDragboard();
-
-		String cardID = db.getString();
-		Card playedCard = null;
-
-		for (Card c : model.localPlayer.getHand()) {
-			System.out.println(cardID + " == " + c.getID());
-
-			if (cardID == c.getID())
-				playedCard = c;
-		}
-
-		if (playedCard == null)
+		String cardId = event.getDragboard().getString();
+		int index = getCardIndex(model.localPlayer.getHand(), cardId);
+		if (index == -1)
 			return;
-
+		
+		Card playedCard  = model.localPlayer.getHand().get(index);;
 		playedCard.playCard();
-		update();
+		moveCard(index + 1, playerHand, playerField);
 		event.setDropCompleted(true);
 		event.consume();
 	}
+	
+	void moveCard(int index, HBox from, HBox to) {
+		to.getChildren().add(from.getChildren().remove(index));		
+	}
 
 	/**
-	 * This method updates the UI with the current cards.
+	 * This method initially places all the UI elements such as cards and player avatars
 	 */
-	void update() {
+	void initilizeUI() {
 		System.out.printf("Update %d in hand %d in play \n", model.localPlayer.getHand().size(),
 				model.localPlayer.getBattlefield().getCards().size());
 
@@ -142,14 +175,23 @@ public class MatchController extends ViewController{
 		System.out.println("Play:" + model.localPlayer.getBattlefield().getCards().stream().map((Card c) -> c.getName())
 				.collect(Collectors.joining(", ", "{", "}")));
 
+		// Player hand
 		playerHand.getChildren().clear();
 		addPlayerCharacter(model.localPlayer.getPlayerChar(), playerHand);
 		addCards(model.localPlayer.getHand(), playerHand);
-		localPlayerField.getChildren().clear();
-		addCards(localPlayerField, model.localPlayer.getBattlefield().getCards());
 		
+		// Player Field
+		playerField.getChildren().clear();
+		addCards(playerField, model.localPlayer.getBattlefield().getCards());
+		
+		// Opponent Hand
 		opponentHand.getChildren().clear();
 		addPlayerCharacter(model.opponent.getPlayerChar(), opponentHand);
+		addCards(model.opponent.getHand(), opponentHand);
+		
+		// Opponent Field
+		opponentField.getChildren().clear();
+		addCards(opponentField, model.localPlayer.getBattlefield().getCards());
 	}
 
 	/**
@@ -186,7 +228,7 @@ public class MatchController extends ViewController{
 	 * @param toAdd
 	 *            the card to add
 	 * @param target
-	 *            the UI element ot append the card to
+	 *            the UI element to append the card to
 	 */
 	void addCardTo(Card toAdd, Pane target) {
 		try {

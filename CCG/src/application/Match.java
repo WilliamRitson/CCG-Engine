@@ -24,14 +24,11 @@ public class Match {
 	 * This version populates the game with test data
 	 */
 	public Match() {
-		Deck testDeck = new Deck(new Minion("Card 1", "A thing", 1, 1, 1),
-				new Minion("Card 2", "Test Card", 0, 1, 3), new Minion("Card 3", "Tetzings", 8, 7, 9),
-				new Minion("Card 4", "Lots of test", 1, 3, 5),
-				new Minion("Card 5", "Testerzz", 1, 3, 6), new Minion("Card 6", "Demo", 1, 2, 1),
-				new Minion("Card 7", "Card test", 1, 12, 7));
-		localPlayer = new Player(new PlayerCharacter(), testDeck, this);
+		Collection c = new Collection();
+		localPlayer = new Player(new PlayerCharacter(), c.getRandomDeck(), this);
 		localPlayer.drawCards(3);
-		opponent = new Player(new PlayerCharacter(), new Deck(), this);
+		opponent = new Player(new PlayerCharacter(), c.getRandomDeck(), this);
+		opponent.drawCards(3);
 		players = new Player[] { localPlayer, opponent };
 		
 		localPlayer.startTurn();
